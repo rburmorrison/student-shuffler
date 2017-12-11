@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Student Mixer</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="../styles/index.css">
@@ -14,17 +14,35 @@
 </head>
 <body>
     <div id="root">
-        <div class="title">Student Mixer</div>
-        <br>
-        <div id="student-list">
-            <div class="student-row">
+        <!-- <div class="title">Student Mixer</div>
+        <br> -->
+        <template v-if="showingAddStudent">
+            <div class="input-area">
+                <input id="nameInput" v-model="currentName" placeholder="Name" type="text">
+                <input id="emailInput" v-model="currentEmail" placeholder="Email Address" type="text">
+            </div>
+            <div class="button-area">
+                <button @click="showingAddStudent = false" style="margin-right: 0.5rem;">Hide</button>
+                <button @click="addStudent" class="button-primary">Add Student</button>
+            </div>
+        </template>
+        <div class="student-list">
+            <div class="student-row student-row--header">
                 <div class="bold">Students</div>
-                <div class="add-button">+</div>
+                <div @click="showingAddStudent = true" class="icon-button">+</div>
             </div>
             <div v-if="students.length === 0" class="nothing-to-show">
-                Nothing to show...
+                Nothing to show
             </div>
-            <div v-else>Showing!</div>
+            <div v-else class="student-list__content">
+                <div v-for="(student, index) in students">
+                    <div class="student-row">
+                        <div><span class="bold">Name: </span>{{student.name}}</div>
+                        <div><span class="bold">Email: </span>{{student.email}}</div>
+                        <span @click="deleteStudent(index)" class="delete-button">x</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
