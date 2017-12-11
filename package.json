@@ -1,23 +1,44 @@
 {
-  "name": "student-shuffler",
-  "version": "1.0.0",
-  "description": "A template for making electron applications with vue",
-  "main": "main.js",
-  "author": "Ryan Burmeister-Morrison",
-  "license": "MIT",
-  "scripts": {
-    "start": "electron .",
-    "electron-toolkit": "electron ./node_modules/electron-toolkit/"
-  },
-  "dependencies": {
-    "electron-disable-file-drop": "^1.0.1",
-    "tedb": "^0.4.4",
-    "vue": "^2.5.9"
-  },
-  "devDependencies": {
-    "electron": "^1.7.9",
-    "electron-builder": "^19.48.3",
-    "electron-reload": "^1.2.2",
-    "electron-toolkit": "^1.0.24"
-  }
+    "name": "student-shuffler",
+    "version": "1.0.0",
+    "description": "A simple app for pairing up students for projects.",
+    "main": "main.js",
+    "author": "Ryan Burmeister-Morrison",
+    "license": "MIT",
+    "scripts": {
+        "start": "electron .",
+        "electron-toolkit": "electron ./node_modules/electron-toolkit/"
+    },
+    "dependencies": {
+        "electron-disable-file-drop": "^1.0.1",
+        "vue": "^2.5.9"
+    },
+    "devDependencies": {
+        "electron": "^1.7.9",
+        "electron-builder": "^19.48.3",
+        "electron-reload": "^1.2.2",
+        "electron-toolkit": "^1.0.24"
+    },
+    "build": {
+        "appId": "com.ryanburmeister.student-shuffler",
+        "copyright": "Copyright © 2017 Ryan Burmeister-Morrison",
+        "productName": "Student Shuffler",
+        "electronVersion": "1.7.9",
+        "asar": true,
+        "directories": {
+            "app": "/Users/ryanburmeister/WebstormProjects/Electron/student-mixer",
+            "output": "dist"
+        },
+        "mac": {
+            "category": "",
+            "target": [
+                {
+                    "target": "dmg",
+                    "arch": [
+                        "x64"
+                    ]
+                }
+            ]
+        }
+    }
 }

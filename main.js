@@ -3,9 +3,9 @@ const path = require('path');
 const url = require('url');
 
 // Electron reload
-require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-});
+// require('electron-reload')(__dirname, {
+//     electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+// });
 
 // Global window instance
 let mainWindow;

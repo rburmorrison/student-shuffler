@@ -10,10 +10,10 @@ require('electron-disable-file-drop');
 new Vue({
     el: '#root',
     data: {
-        showingAddStudent: true,
-        students: [],
-        currentName: '',
-        currentEmail: ''
+        showingAddStudent: false, // Show student input
+        students: [],             // List of students
+        currentName: '',          // Name input
+        currentEmail: ''          // Email input
     },
     methods: {
         addStudent() {
@@ -41,7 +41,61 @@ new Vue({
             this.students.splice(index, 1);
         },
         shuffleStudents() {
+            if (this.students.length > 0) {
+                dialog.showSaveDialog({
+                    filters: [{ name: 'Text', extensions: ['txt'] }]
+                }, (filename) => {
+                    if (!filename) return;
 
+                    const tempArray = this.students;
+                    const pairedArray = [];
+                    let fileOutput = '';
+                    let allPaired = false;
+
+                    while (!allPaired) {
+                        // Person 1: Get Random Index, Get Person, Delete Person
+                        const person1Index = Math.floor(Math.random() * tempArray.length);
+                        const person1 = tempArray[person1Index];
+                        tempArray.splice(person1Index, 1);
+
+                        // Person 2: Get Random Index, Get Person, Delete Person
+                        if (tempArray.length > 0) {
+                            const person2Index = Math.floor(Math.random() * tempArray.length);
+                            const person2 = tempArray[person2Index];
+                            tempArray.splice(person2Index, 1);
+
+                            // Push both people
+                            pairedArray.push([
+                                person1, person2
+                            ]);
+                        } else {
+                            // Add just the last person
+                            pairedArray.push([
+                                person1
+                            ]);
+                        }
+
+                        // Check if there are any people left
+                        if (tempArray.length === 0) {
+                            allPaired = true;
+                        }
+                    }
+
+                    // Create file contents
+                    pairedArray.forEach((item) => {
+                        if (item.length > 1) {
+                            fileOutput += item[0].name + ' with ' + item[1].name + '\r\n';
+                            fileOutput += '    ' + item[0].email + ' ; ' + item[1].email + '\r\n';
+                            fileOutput += '\r\n';
+                        } else {
+                            fileOutput += 'Solo: ' + item[0].name + ' <' + item[0].email + '>\r\n';
+                            fileOutput += '\r\n';
+                        }
+                    });
+
+                    fs.writeFile(filename, fileOutput);
+                });
+            }
         },
         doesStudentExist(student) {
             let exists = false;
@@ -68,6 +122,9 @@ new Vue({
                                 properties: ['openFile'],
                                 filters: [{ name: 'Text', extensions: ['txt'] }]
                             }, (locs) => {
+                                if (locs.length === 0) return; // Quit if canceled
+
+                                // Grab first path
                                 const loc = locs[0];
 
                                 fs.readFile(loc, 'utf8', (err, data) => {
@@ -103,6 +160,8 @@ new Vue({
                                 dialog.showSaveDialog({
                                     filters: [{ name: 'Text', extensions: ['txt'] }]
                                 }, (filename) => {
+                                    if (!filename) return; // Quit if canceled
+
                                     let fileOutput = '';
 
                                     this.students.forEach((student) => {
@@ -113,7 +172,15 @@ new Vue({
                                 });
                             }
                         }
-                    } // END EXPORT
+                    }, // END EXPORT
+                    { type: 'separator' },
+                    {
+                        label: 'Shuffle',
+                        accelerator: 'CommandOrControl+S',
+                        click: () => {
+                            this.shuffleStudents();
+                        }
+                    }
                 ]
             },
             {
@@ -124,13 +191,13 @@ new Vue({
                     { role: 'selectall' }
                 ]
             },
-            {
-                label: 'Debug',
-                submenu: [
-                    { role: 'toggledevtools' },
-                    { role: 'reload' }
-                ]
-            }
+            // {
+            //     label: 'Debug',
+            //     submenu: [
+            //         { role: 'toggledevtools' },
+            //         { role: 'reload' }
+            //     ]
+            // }
         ];
 
         if (process.platform === 'darwin') {
