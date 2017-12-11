@@ -7,38 +7,50 @@
     <title>Student Mixer</title>
 
     <!-- CSS -->
+    <link rel="stylesheet" href="../bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../styles/index.css">
 
     <!-- JavaScript -->
+    <script src="../bower_components/material-design-lite/material.min.js"></script>
     <script src="../node_modules/vue/dist/vue.min.js"></script>
 </head>
 <body>
     <div id="root">
-        <!-- <div class="title">Student Mixer</div>
-        <br> -->
+        <!-- Input Area -->
         <template v-if="showingAddStudent">
             <div class="input-area">
-                <input id="nameInput" v-model="currentName" placeholder="Name" type="text">
-                <input id="emailInput" v-model="currentEmail" placeholder="Email Address" type="text">
-            </div>
-            <div class="button-area">
-                <button @click="showingAddStudent = false" style="margin-right: 0.5rem;">Hide</button>
-                <button @click="addStudent" class="button-primary">Add Student</button>
+                <input id="nameInput" class="mdl-textfield__input" @keyup.enter="addStudent" v-model="currentName" placeholder="Name" type="text">
+                <input id="emailInput" class="mdl-textfield__input" @keyup.enter="addStudent" v-model="currentEmail" placeholder="Email Address" type="text">
+                <button @click="addStudent"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                    Add Student
+                </button>
             </div>
         </template>
+
+        <!-- Student List Container -->
         <div class="student-list">
+            <!-- Menu -->
             <div class="student-row student-row--header">
                 <div class="bold">Students</div>
-                <div @click="showingAddStudent = true" class="icon-button">+</div>
+
+                <!-- Show and Hide Input -->
+                <div v-if="!showingAddStudent" @click="showingAddStudent = true" class="icon-button">+</div>
+                <div v-else="!showingAddStudent" @click="showingAddStudent = false" class="icon-button">-</div>
             </div>
+
+            <!-- No-Content Placeholder -->
             <div v-if="students.length === 0" class="nothing-to-show">
                 Nothing to show
             </div>
+
+            <!-- List Content -->
             <div v-else class="student-list__content">
                 <div v-for="(student, index) in students">
                     <div class="student-row">
-                        <div><span class="bold">Name: </span>{{student.name}}</div>
-                        <div><span class="bold">Email: </span>{{student.email}}</div>
+                        <div style="flex: 1"><div class="bold">Name</div>{{student.name}}</div>
+                        <div style="flex: 1"><div class="bold">Email</div>{{student.email}}</div>
                         <span @click="deleteStudent(index)" class="delete-button">x</div>
                     </div>
                 </div>
