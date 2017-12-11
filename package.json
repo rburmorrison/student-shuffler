@@ -1,5 +1,5 @@
 {
-    "name": "student-shuffler",
+    "name": "student-mixer",
     "version": "1.0.0",
     "description": "A simple app for pairing up students for projects.",
     "main": "main.js",
@@ -22,22 +22,23 @@
     "build": {
         "appId": "com.ryanburmeister.student-shuffler",
         "copyright": "Copyright © 2017 Ryan Burmeister-Morrison",
-        "productName": "Student Shuffler",
+        "productName": "Student Mixer",
         "electronVersion": "1.7.9",
         "asar": true,
         "directories": {
             "app": "/Users/ryanburmeister/WebstormProjects/Electron/student-mixer",
             "output": "dist"
         },
-        "win": {
+        "mac": {
             "target": [
                 {
-                    "target": "nsis",
+                    "target": "dmg",
                     "arch": [
                         "x64"
                     ]
                 }
-            ]
+            ],
+            "category": "public.app-category.productivity"
         }
     }
 }

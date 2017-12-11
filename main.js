@@ -13,8 +13,8 @@ let mainWindow;
 function createMainWindow() {
     mainWindow = new BrowserWindow({
         width: 650, height: 400,
-        show: false, title: '',
-        minWidth: 650, minHeight: 400
+        minWidth: 650, minHeight: 400,
+        show: false, title: ''
     });
 
     mainWindow.loadURL(url.format({

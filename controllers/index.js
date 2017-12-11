@@ -1,7 +1,7 @@
 /* global Vue document */
 
 // Imports
-const { Menu, dialog } = require('electron').remote;
+const { Menu, dialog, app } = require('electron').remote;
 const fs = require('fs');
 
 // Disable file drop
@@ -191,20 +191,29 @@ new Vue({
                     { role: 'selectall' }
                 ]
             },
-            {
-                label: 'Debug',
-                submenu: [
-                    { role: 'toggledevtools' },
-                    { role: 'reload' }
-                ]
-            }
+            // {
+            //     label: 'Debug',
+            //     submenu: [
+            //         { role: 'toggledevtools' },
+            //         { role: 'reload' }
+            //     ]
+            // }
         ];
 
         if (process.platform === 'darwin') {
             template.unshift({
                 submenu: [
-                    { role: 'about' },
-                    { role: 'quit' }
+                    {
+                        label: 'About Student Mixer',
+                        selector: 'orderFrontStandardAboutPanel:'
+                    },
+                    {
+                        label: 'Quit Student Mixer',
+                        accelerator: 'CommandOrControl+Q',
+                        click: () => {
+                            app.quit();
+                        }
+                    }
                 ]
             });
         }
