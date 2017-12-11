@@ -29,11 +29,10 @@
             "app": "/Users/ryanburmeister/WebstormProjects/Electron/student-mixer",
             "output": "dist"
         },
-        "mac": {
-            "category": "",
+        "win": {
             "target": [
                 {
-                    "target": "dmg",
+                    "target": "nsis",
                     "arch": [
                         "x64"
                     ]

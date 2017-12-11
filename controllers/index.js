@@ -47,7 +47,7 @@ new Vue({
                 }, (filename) => {
                     if (!filename) return;
 
-                    const tempArray = this.students;
+                    const tempArray = this.students.splice();
                     const pairedArray = [];
                     let fileOutput = '';
                     let allPaired = false;
@@ -191,13 +191,13 @@ new Vue({
                     { role: 'selectall' }
                 ]
             },
-            // {
-            //     label: 'Debug',
-            //     submenu: [
-            //         { role: 'toggledevtools' },
-            //         { role: 'reload' }
-            //     ]
-            // }
+            {
+                label: 'Debug',
+                submenu: [
+                    { role: 'toggledevtools' },
+                    { role: 'reload' }
+                ]
+            }
         ];
 
         if (process.platform === 'darwin') {
