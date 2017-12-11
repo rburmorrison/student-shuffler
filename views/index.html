@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../styles/index.css">
+
+    <!-- JavaScript -->
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div class="title">Student Mixer</div>
+        <br>
+        <div id="student-list">
+            <div class="student-row">
+                <div class="bold">Students</div>
+                <div class="add-button">+</div>
+            </div>
+            <div v-if="students.length === 0" class="nothing-to-show">
+                Nothing to show...
+            </div>
+            <div v-else>Showing!</div>
+        </div>
+    </div>
+
+    <script src="../controllers/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+/* Elements */
+body {
+    margin: 0;
+    font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+/* IDs */
+#root {
+    display: flex;
+    max-width: 95%;
+    margin: 1rem auto;
+    flex-flow: column;
+    flex: 1;
+}
+
+#student-list {
+    display: flex;
+    flex-flow: column;
+    border: 1px solid #dddddd;
+    border-radius: 1rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+#student-list__content {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+/* Classes */
+.bold {
+    font-weight: 500;
+    user-select: none;
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    user-select: none;
+}
+
+.add-button {
+    font-weight: 400;
+    font-size: 2rem;
+    user-select: none;
+}
+
+.add-button:hover {
+    color: rgb(81, 114, 233);
+    cursor: pointer;
+}
+
+.nothing-to-show {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+/* Student Rows */
+.student-row {
+    padding: 0 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #eeeeee;
+    border-bottom: 1px solid #dddddd;
+}
