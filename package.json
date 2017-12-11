@@ -1,5 +1,5 @@
 {
-  "name": "electron-template",
+  "name": "student-shuffler",
   "version": "1.0.0",
   "description": "A template for making electron applications with vue",
   "main": "main.js",

@@ -2,6 +2,7 @@
 
 // Imports
 const { Menu, dialog } = require('electron').remote;
+const fs = require('fs');
 
 // Disable file drop
 require('electron-disable-file-drop');
@@ -17,13 +18,17 @@ new Vue({
     methods: {
         addStudent() {
             // Quit if inputs are not filled in
-            if (!this.currentName || !this.currentEmail) return;
+            if (!this.currentName.trim() || !this.currentEmail.trim()) return;
+
+            // Create student and check if it already exists
+            const student = {
+                name: this.currentName.trim(),
+                email: this.currentEmail.trim()
+            };
+            if (this.doesStudentExist(student)) return;
 
             // Add student
-            this.students.push({
-                name: this.currentName,
-                email: this.currentEmail
-            });
+            this.students.push(student);
 
             // Clear inputs
             this.currentName = '';
@@ -34,6 +39,19 @@ new Vue({
         },
         deleteStudent(index) {
             this.students.splice(index, 1);
+        },
+        shuffleStudents() {
+
+        },
+        doesStudentExist(student) {
+            let exists = false;
+
+            this.students.forEach((currentStudent) => {
+                if (student.email === currentStudent.email)
+                    exists = true;
+            });
+
+            return exists;
         }
     },
     mounted() {
@@ -43,14 +61,59 @@ new Vue({
                 label: 'File',
                 submenu: [
                     {
-                        label: 'Open',
-                        accelerator: 'CommandOrControl+O',
+                        label: 'Import',
+                        accelerator: 'CommandOrControl+I',
                         click: () => {
                             dialog.showOpenDialog({
-                                
+                                properties: ['openFile'],
+                                filters: [{ name: 'Text', extensions: ['txt'] }]
+                            }, (locs) => {
+                                const loc = locs[0];
+
+                                fs.readFile(loc, 'utf8', (err, data) => {
+                                    const lines = data.split('\n');
+                                    const cleanLines = [];
+
+                                    // Find only clean lines
+                                    for (var i = 0; i < lines.length; i++) {
+                                        if (lines[i] !== '' && lines[i].match('.+;.+')) {
+                                            // Push and remove any line breaks
+                                            cleanLines.push(lines[i].replace(/\r|\n|\r\n/g, ''));
+                                        }
+                                    }
+
+                                    // Add students
+                                    cleanLines.forEach((cleanLine) => {
+                                        const cleanArray = cleanLine.split(';');
+                                        const name = cleanArray[0];
+                                        const email = cleanArray[1];
+                                        const student = { name, email };
+                                        if (!this.doesStudentExist(student))
+                                            this.students.push(student);
+                                    });
+                                });
                             });
                         }
-                    }
+                    }, // END IMPORT
+                    {
+                        label: 'Export',
+                        accelerator: 'CommandOrControl+E',
+                        click: () => {
+                            if (this.students.length > 0) {
+                                dialog.showSaveDialog({
+                                    filters: [{ name: 'Text', extensions: ['txt'] }]
+                                }, (filename) => {
+                                    let fileOutput = '';
+
+                                    this.students.forEach((student) => {
+                                        fileOutput += student.name + ';' + student.email + '\r\n';
+                                    });
+
+                                    fs.writeFile(filename, fileOutput);
+                                });
+                            }
+                        }
+                    } // END EXPORT
                 ]
             },
             {
@@ -73,7 +136,8 @@ new Vue({
         if (process.platform === 'darwin') {
             template.unshift({
                 submenu: [
-                    { role: 'about' }
+                    { role: 'about' },
+                    { role: 'quit' }
                 ]
             });
         }
